@@ -1,0 +1,31 @@
+paths:
+  /api/sessions/login:
+    post:
+      summary: Iniciar sesión
+      tags: [Sessions]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email: { type: string, example: "juan@mail.com" }
+                password: { type: string, example: "123456" }
+      responses:
+        "200": { description: Sesión iniciada }
+        "401": { description: Credenciales inválidas }
+
+  /api/sessions/register:
+    post:
+      summary: Registrar usuario
+      tags: [Sessions]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/User" }
+      responses:
+        "201": { description: Usuario registrado }
+        "400": { description: Datos inválidos }

@@ -1,0 +1,53 @@
+<h2>🛒 Carritos</h2>
+
+<!-- Botón para crear carrito -->
+<form action="/api/carts" method="POST">
+  <button type="submit">➕ Crear carrito</button>
+</form>
+
+<hr>
+
+<!-- Listado de carritos -->
+{{#if carts.length}}
+  <ul>
+    {{#each carts}}
+      <li>
+        <strong>ID:</strong> {{this._id}} <br>
+
+        <!-- Botón para ver detalles -->
+        <form action="/carts/{{this._id}}" method="GET">
+          <button type="submit">👀 Ver detalles</button>
+        </form>
+
+        <!-- Mostrar productos de este carrito -->
+        {{#if this.products.length}}
+          <ul>
+            {{#each this.products}}
+              <li>
+                {{this.product.title}} - Cantidad: {{this.quantity}}
+              </li>
+            {{/each}}
+          </ul>
+        {{else}}
+          <p>Carrito vacío.</p>
+        {{/if}}
+
+        <!-- Agregar producto a este carrito (pid dinámico desde productos) -->
+        <form action="/api/carts/{{this._id}}/products/{{../productExampleId}}" method="POST">
+          <input type="number" name="quantity" value="1" min="1">
+          <button type="submit">➕ Agregar producto de prueba</button>
+        </form>
+
+        <!-- Eliminar carrito -->
+        <form action="/api/carts/{{this._id}}" method="POST" onsubmit="this._method.value='DELETE'">
+          <input type="hidden" name="_method" value="DELETE">
+          <button type="submit">❌ Eliminar carrito</button>
+        </form>
+      </li>
+      <hr>
+    {{/each}}
+  </ul>
+{{else}}
+  <p>No hay carritos creados todavía.</p>
+{{/if}}
+

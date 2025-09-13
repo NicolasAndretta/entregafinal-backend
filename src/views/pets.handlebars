@@ -1,0 +1,43 @@
+{{!-- ✅ Vista de mascotas --}}
+<h1>Lista de Mascotas</h1>
+
+{{#if pets.length}}
+  <ul>
+    {{#each pets}}
+      <li>
+        🐾 Nombre: {{this.name}} <br />
+        📌 Tipo: {{this.type}} <br />
+        🎂 Edad: {{this.age}} años <br />
+        {{#if this.adopted}}
+          ✅ Adoptado por: {{this.owner}}
+        {{else}}
+          ❌ Disponible
+        {{/if}}
+        <hr />
+      </li>
+    {{/each}}
+  </ul>
+{{else}}
+  <p>No hay mascotas registradas.</p>
+{{/if}}
+
+<hr />
+
+<h2>Registrar una nueva mascota</h2>
+<form method="POST" action="/api/pets">
+  <label for="name">Nombre:</label>
+  <input type="text" id="name" name="name" required />
+
+  <label for="type">Tipo:</label>
+  <select id="type" name="type" required>
+    <option value="dog">Perro</option>
+    <option value="cat">Gato</option>
+    <option value="bird">Ave</option>
+    <option value="other">Otro</option>
+  </select>
+
+  <label for="age">Edad:</label>
+  <input type="number" id="age" name="age" required />
+
+  <button type="submit">Crear Mascota</button>
+</form>

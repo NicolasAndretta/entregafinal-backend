@@ -1,0 +1,40 @@
+<h1 class="chat-title">Chat en vivo</h1>
+
+<div id="chat-box" class="chat-box">
+  {{#each messages}}
+    <p><strong>{{this.user}}:</strong> {{this.message}}</p>
+  {{/each}}
+</div>
+
+<form id="chat-form" class="chat-form">
+  <input type="text" id="user" placeholder="Tu nombre" required />
+  <input type="text" id="message" placeholder="Escribe un mensaje..." required />
+  <button type="submit">Enviar</button>
+</form>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io();
+
+  const chatBox = document.getElementById("chat-box");
+  const form = document.getElementById("chat-form");
+  const userInput = document.getElementById("user");
+  const messageInput = document.getElementById("message");
+
+  socket.on("chatMessage", (msg) => {
+    const p = document.createElement("p");
+    p.innerHTML = "<strong>" + msg.user + ":</strong> " + msg.message;
+    chatBox.appendChild(p);
+    chatBox.scrollTop = chatBox.scrollHeight;
+  });
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const user = userInput.value.trim();
+    const message = messageInput.value.trim();
+    if (user && message) {
+      socket.emit("chatMessage", { user, message });
+      messageInput.value = "";
+    }
+  });
+</script>

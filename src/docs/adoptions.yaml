@@ -1,0 +1,47 @@
+paths:
+  /api/adoptions:
+    get:
+      summary: Obtener todas las adopciones
+      tags: [Adoptions]
+      responses:
+        "200": { description: Lista de adopciones }
+    post:
+      summary: Crear una nueva adopción
+      tags: [Adoptions]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/Adoption" }
+      responses:
+        "201": { description: Adopción creada }
+        "400": { description: Datos inválidos }
+
+  /api/adoptions/{id}:
+    get:
+      summary: Obtener adopción por ID
+      tags: [Adoptions]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        "200": { description: Adopción encontrada }
+        "404": { description: No encontrada }
+    delete:
+      summary: Eliminar adopción
+      tags: [Adoptions]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        "200": { description: Adopción eliminada }
+        "404": { description: No encontrada }
+
+components:
+  schemas:
+    Adoption:
+      type: object
+      required: [petId, userId, adoptionDate]
+      properties:
+        petId: { type: string, example: "64bcd93287e4b0f1a3e8f21c" }
+        userId: { type: string, example: "64bcd93287e4b0f1a3e8f888" }
+        adoptionDate:
+          { type: string, format: date-time, example: "2025-09-10T10:00:00Z" }

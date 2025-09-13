@@ -1,0 +1,62 @@
+paths:
+  /api/products:
+    get:
+      summary: Obtener todos los productos
+      tags: [Products]
+      responses:
+        "200": { description: Lista de productos }
+    post:
+      summary: Crear un producto
+      tags: [Products]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/Product" }
+      responses:
+        "201": { description: Producto creado }
+        "400": { description: Datos inválidos }
+
+  /api/products/{id}:
+    get:
+      summary: Obtener producto por ID
+      tags: [Products]
+      parameters:
+        - { in: path, name: id, required: true, schema: { type: string } }
+      responses:
+        "200": { description: Producto encontrado }
+        "404": { description: Producto no encontrado }
+    put:
+      summary: Actualizar producto
+      tags: [Products]
+      parameters:
+        - { in: path, name: id, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/Product" }
+      responses:
+        "200": { description: Producto actualizado }
+        "404": { description: Producto no encontrado }
+    delete:
+      summary: Eliminar producto
+      tags: [Products]
+      parameters:
+        - { in: path, name: id, required: true, schema: { type: string } }
+      responses:
+        "200": { description: Producto eliminado }
+        "404": { description: Producto no encontrado }
+
+components:
+  schemas:
+    Product:
+      type: object
+      required: [title, description, price, stock, category]
+      properties:
+        title: { type: string, example: Shampoo cerámico }
+        description: { type: string, example: Shampoo premium para detailing }
+        price: { type: number, example: 25000 }
+        stock: { type: integer, example: 15 }
+        category: { type: string, example: limpieza }
+        thumbnail: { type: string, example: "/images/shampoo.jpg" }

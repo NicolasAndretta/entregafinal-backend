@@ -1,0 +1,81 @@
+paths:
+  /api/users:
+    get:
+      summary: Obtener todos los usuarios
+      tags: [Users]
+      responses:
+        "200":
+          description: Lista de usuarios
+    post:
+      summary: Crear un nuevo usuario
+      tags: [Users]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "201":
+          description: Usuario creado
+        "400":
+          description: Datos inválidos
+
+  /api/users/{id}:
+    get:
+      summary: Obtener un usuario por ID
+      tags: [Users]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Usuario encontrado
+        "404":
+          description: Usuario no encontrado
+    put:
+      summary: Actualizar un usuario
+      tags: [Users]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "200":
+          description: Usuario actualizado
+        "404":
+          description: Usuario no encontrado
+    delete:
+      summary: Eliminar un usuario
+      tags: [Users]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Usuario eliminado
+        "404":
+          description: Usuario no encontrado
+
+components:
+  schemas:
+    User:
+      type: object
+      required: [first_name, last_name, email, password, role]
+      properties:
+        first_name: { type: string, example: Juan }
+        last_name: { type: string, example: Pérez }
+        email: { type: string, example: juanperez@mail.com }
+        password: { type: string, example: "123456" }
+        role: { type: string, enum: [user, admin], example: user }

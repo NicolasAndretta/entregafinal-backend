@@ -1,0 +1,49 @@
+<h1>Gestión de Tickets</h1>
+
+<!-- Formulario para crear ticket -->
+<section>
+  <h2>Crear Ticket</h2>
+  <form action="/api/tickets" method="POST">
+    <label for="purchaser">Usuario (ID):</label>
+    <input type="text" name="purchaser" id="purchaser" placeholder="ID del comprador" required />
+
+    <label for="products">Productos (JSON):</label>
+    <textarea name="products" id="products" rows="3" placeholder='[{"product":"idProd1","quantity":2}]' required></textarea>
+
+    <label for="amount">Monto total:</label>
+    <input type="number" step="0.01" name="amount" id="amount" placeholder="0.00" required />
+
+    <button type="submit">Crear Ticket</button>
+  </form>
+</section>
+
+<hr />
+
+<!-- Listado de tickets -->
+<section>
+  <h2>Tickets Registrados</h2>
+  {{#if tickets.length}}
+    <ul>
+      {{#each tickets}}
+        <li>
+          <strong>Código:</strong> {{this.code}} <br />
+          <strong>Usuario:</strong> {{this.purchaser._id}} <br />
+          <strong>Monto:</strong> ${{this.amount}} <br />
+          <strong>Fecha:</strong> {{this.purchase_datetime}} <br />
+          <strong>Productos:</strong>
+          <ul>
+            {{#each this.products}}
+              <li>{{this.product.name}} (x{{this.quantity}})</li>
+            {{/each}}
+          </ul>
+          <form action="/api/tickets/{{this._id}}?_method=DELETE" method="POST" style="margin-top:0.5rem;">
+            <button type="submit">Eliminar</button>
+          </form>
+        </li>
+        <hr />
+      {{/each}}
+    </ul>
+  {{else}}
+    <p>No hay tickets registrados.</p>
+  {{/if}}
+</section>

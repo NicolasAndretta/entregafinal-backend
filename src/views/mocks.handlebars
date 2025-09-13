@@ -1,0 +1,25 @@
+<h1>Productos Mock</h1>
+
+<div style="margin-bottom:1rem;">
+  <form method="GET" action="/mocks">
+    <label for="qty">Cantidad:</label>
+    <input type="number" id="qty" name="qty" min="1" value="10" />
+    <button type="submit">Generar</button>
+  </form>
+</div>
+
+{{#if mocks.length}}
+  <ul>
+    {{#each mocks}}
+      <li>
+        <strong>{{this.title}}</strong> - ${{this.price}}  
+        <br/>{{this.description}}
+        <br/><em>Stock: {{this.stock}}</em>
+        <br/><img src="{{this.thumbnail}}" alt="thumbnail" width="80"/>
+        <hr/>
+      </li>
+    {{/each}}
+  </ul>
+{{else}}
+  <p>No hay productos generados.</p>
+{{/if}}

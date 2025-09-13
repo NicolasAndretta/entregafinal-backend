@@ -1,0 +1,42 @@
+<h1>Gestión de Sesiones</h1>
+
+<!-- Formulario para iniciar sesión -->
+<section>
+  <h2>Iniciar Sesión</h2>
+  <form action="/api/sessions" method="POST">
+    <label for="userId">Usuario:</label>
+    <input type="text" name="userId" id="userId" placeholder="ID del usuario" required />
+
+    <label for="token">Token:</label>
+    <input type="text" name="token" id="token" placeholder="Token de sesión" required />
+
+    <label for="expiresAt">Expira en:</label>
+    <input type="datetime-local" name="expiresAt" id="expiresAt" required />
+
+    <button type="submit">Crear sesión</button>
+  </form>
+</section>
+
+<hr />
+
+<!-- Listado de sesiones activas -->
+<section>
+  <h2>Sesiones activas</h2>
+  {{#if sessions.length}}
+    <ul>
+      {{#each sessions}}
+        <li>
+          <strong>Usuario:</strong> {{this.user._id}} <br />
+          <strong>Token:</strong> {{this.token}} <br />
+          <strong>Expira:</strong> {{this.expiresAt}} <br />
+          <form action="/api/sessions/{{this.token}}?_method=DELETE" method="POST" style="margin-top:0.5rem;">
+            <button type="submit">Eliminar sesión</button>
+          </form>
+        </li>
+        <hr />
+      {{/each}}
+    </ul>
+  {{else}}
+    <p>No hay sesiones activas.</p>
+  {{/if}}
+</section>

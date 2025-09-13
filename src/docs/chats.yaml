@@ -1,0 +1,26 @@
+paths:
+  /api/chats:
+    get:
+      summary: Obtener todos los mensajes
+      tags: [Chats]
+      responses:
+        "200": { description: Lista de mensajes }
+    post:
+      summary: Enviar mensaje
+      tags: [Chats]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/Chat" }
+      responses:
+        "201": { description: Mensaje enviado }
+
+components:
+  schemas:
+    Chat:
+      type: object
+      required: [user, message]
+      properties:
+        user: { type: string, example: "Nico" }
+        message: { type: string, example: "Hola, ¿hay stock?" }

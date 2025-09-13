@@ -1,0 +1,27 @@
+paths:
+  /api/tickets:
+    get:
+      summary: Obtener todos los tickets
+      tags: [Tickets]
+      responses:
+        "200": { description: Lista de tickets }
+    post:
+      summary: Crear un ticket
+      tags: [Tickets]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/Ticket" }
+      responses:
+        "201": { description: Ticket creado }
+
+components:
+  schemas:
+    Ticket:
+      type: object
+      required: [code, amount, purchaser]
+      properties:
+        code: { type: string, example: "TCK123" }
+        amount: { type: number, example: 50000 }
+        purchaser: { type: string, example: "juan@mail.com" }

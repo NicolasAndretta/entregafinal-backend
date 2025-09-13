@@ -1,0 +1,44 @@
+paths:
+  /api/carts:
+    get:
+      summary: Obtener todos los carritos
+      tags: [Carts]
+      responses:
+        "200": { description: Lista de carritos }
+    post:
+      summary: Crear un carrito
+      tags: [Carts]
+      responses:
+        "201": { description: Carrito creado }
+
+  /api/carts/{cid}:
+    get:
+      summary: Obtener productos de un carrito
+      tags: [Carts]
+      parameters:
+        - { name: cid, in: path, required: true, schema: { type: string } }
+      responses:
+        "200": { description: Carrito encontrado }
+        "404": { description: Carrito no encontrado }
+    post:
+      summary: Agregar producto al carrito
+      tags: [Carts]
+      parameters:
+        - { name: cid, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CartItem" }
+      responses:
+        "200": { description: Producto agregado }
+        "404": { description: Carrito o producto no encontrado }
+
+components:
+  schemas:
+    CartItem:
+      type: object
+      required: [productId, quantity]
+      properties:
+        productId: { type: string, example: "64bcd93287e4b0f1a3e8f777" }
+        quantity: { type: integer, example: 2 }

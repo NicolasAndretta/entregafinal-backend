@@ -1,0 +1,29 @@
+{{!-- ✅ Vista de adopciones --}}
+<h1>Adopciones</h1>
+
+{{#if adoptions.length}}
+  <ul>
+    {{#each adoptions}}
+      <li>
+        🐶 Mascota: {{this.pet.name}} ({{this.pet.type}}) <br />
+        👤 Adoptante: {{this.user.first_name}} {{this.user.last_name}} ({{this.user.email}}) <br />
+        📅 Fecha: {{this.date}}
+      </li>
+    {{/each}}
+  </ul>
+{{else}}
+  <p>No hay adopciones registradas todavía.</p>
+{{/if}}
+
+<hr />
+
+<h2>Registrar una nueva adopción</h2>
+<form method="POST" action="/api/adoptions">
+  <label for="user">ID Usuario:</label>
+  <input type="text" name="user" id="user" required />
+
+  <label for="pet">ID Mascota:</label>
+  <input type="text" name="pet" id="pet" required />
+
+  <button type="submit">Adoptar</button>
+</form>

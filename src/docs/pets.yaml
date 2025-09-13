@@ -1,0 +1,27 @@
+paths:
+  /api/pets:
+    get:
+      summary: Obtener todas las mascotas
+      tags: [Pets]
+      responses:
+        "200": { description: Lista de mascotas }
+    post:
+      summary: Crear mascota
+      tags: [Pets]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/Pet" }
+      responses:
+        "201": { description: Mascota creada }
+
+components:
+  schemas:
+    Pet:
+      type: object
+      required: [name, type, age]
+      properties:
+        name: { type: string, example: "Firulais" }
+        type: { type: string, example: "Perro" }
+        age: { type: integer, example: 3 }

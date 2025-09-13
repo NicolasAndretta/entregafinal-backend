@@ -1,0 +1,52 @@
+{{!-- Layout base --}}
+{{!-- Usamos main.handlebars como layout --}}
+{{!< layouts/main }}
+
+<h1 class="title">Productos</h1>
+
+<section class="products-list">
+  {{#if products.length}}
+    <ul>
+      {{#each products}}
+        <li class="product-card">
+          <h3>{{this.title}}</h3>
+          <p><strong>Precio:</strong> ${{this.price}}</p>
+          <p><strong>Categoría:</strong> {{this.category}}</p>
+          <p><strong>Stock:</strong> {{this.stock}}</p>
+          {{#if this.thumbnails.length}}
+            <div class="thumbs">
+              {{#each this.thumbnails}}
+                <img src="/images/{{this}}" alt="Imagen de {{../title}}" />
+              {{/each}}
+            </div>
+          {{/if}}
+          <form action="/api/carts/682582878f14fb618c8369c5/product/{{this._id}}" method="post">
+            <button type="submit">Agregar al carrito</button>
+          </form>
+        </li>
+      {{/each}}
+    </ul>
+  {{else}}
+    <p>No hay productos cargados.</p>
+  {{/if}}
+</section>
+
+<section class="product-form">
+  <h2>Agregar nuevo producto</h2>
+  <form action="/api/products" method="post">
+    <label for="title">Título</label>
+    <input type="text" id="title" name="title" required />
+
+    <label for="price">Precio</label>
+    <input type="number" id="price" name="price" required />
+
+    <label for="category">Categoría</label>
+    <input type="text" id="category" name="category" required />
+
+    <label for="stock">Stock</label>
+    <input type="number" id="stock" name="stock" value="0" required />
+
+    <button type="submit">Crear producto</button>
+  </form>
+</section>
+

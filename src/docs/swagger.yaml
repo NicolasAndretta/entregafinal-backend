@@ -1,0 +1,235 @@
+openapi: 3.0.0
+info:
+  title: API E-commerce Detailing
+  description: Documentación de la API del proyecto final de Backend
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+    description: Servidor local
+
+paths:
+  # -------------------------------
+  # USERS
+  # -------------------------------
+  /api/users:
+    get:
+      summary: Obtener todos los usuarios
+      responses:
+        "200":
+          description: Lista de usuarios
+    post:
+      summary: Crear un nuevo usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "201":
+          description: Usuario creado
+
+  /api/users/{id}:
+    get:
+      summary: Obtener un usuario por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Usuario encontrado
+        "404":
+          description: Usuario no encontrado
+    put:
+      summary: Actualizar un usuario
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "200":
+          description: Usuario actualizado
+    delete:
+      summary: Eliminar un usuario
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Usuario eliminado
+        "404":
+          description: Usuario no encontrado
+
+  # -------------------------------
+  # PRODUCTS
+  # -------------------------------
+  /api/products:
+    get:
+      summary: Obtener todos los productos
+      responses:
+        "200":
+          description: Lista de productos
+    post:
+      summary: Crear un producto nuevo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+      responses:
+        "201":
+          description: Producto creado
+
+  /api/products/{pid}:
+    get:
+      summary: Obtener un producto por ID
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Producto encontrado
+        "404":
+          description: Producto no encontrado
+    put:
+      summary: Actualizar un producto
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+      responses:
+        "200":
+          description: Producto actualizado
+    delete:
+      summary: Eliminar un producto
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Producto eliminado
+        "404":
+          description: Producto no encontrado
+
+  # -------------------------------
+  # CARTS
+  # -------------------------------
+  /api/carts:
+    post:
+      summary: Crear un nuevo carrito
+      responses:
+        "201":
+          description: Carrito creado
+
+  /api/carts/{cid}:
+    get:
+      summary: Obtener productos de un carrito
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Carrito encontrado
+        "404":
+          description: Carrito no encontrado
+
+  /api/carts/{cid}/product/{pid}:
+    post:
+      summary: Agregar un producto al carrito
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: pid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Producto agregado al carrito
+        "404":
+          description: Carrito o producto no encontrado
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        first_name:
+          type: string
+        last_name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        role:
+          type: string
+          enum: [user, admin]
+
+    Product:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+        stock:
+          type: integer
+        category:
+          type: string
+        thumbnails:
+          type: array
+          items:
+            type: string
+
+    Cart:
+      type: object
+      properties:
+        products:
+          type: array
+          items:
+            type: object
+            properties:
+              product:
+                type: string
+              quantity:
+                type: integer

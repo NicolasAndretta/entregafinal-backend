@@ -1,0 +1,16 @@
+paths:
+  /api/mocks:
+    get:
+      summary: Generar usuarios de prueba
+      tags: [Mocks]
+      responses:
+        "200": { description: Usuarios de prueba generados }
+
+components:
+  schemas:
+    MockUser:
+      type: object
+      properties:
+        first_name: { type: string, example: "Test" }
+        last_name: { type: string, example: "User" }
+        email: { type: string, example: "test@mail.com" }
